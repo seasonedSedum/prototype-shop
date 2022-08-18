@@ -1,14 +1,18 @@
-import { useContext } from "react";
-import AppStateContext from "../contexts/AppStateContext";
+import usePrototypes from "../hooks/usePrototypes";
+import useActions from "../hooks/useActions";
 
 export default function Prototypes() {
-  const { prototypes } = useContext(AppStateContext);
+  const prototypes = usePrototypes();
+  const { addToOrder } = useActions();
 
   return (
     <main>
       <div className="prototypes">
         {prototypes.map((prototype) => {
           const { id, thumbnail, title, price, desc, pieUrl } = prototype;
+          const click = () => {
+            addToOrder(id);
+          };
           return (
             <div className="prototype" key={id}>
               <a href={pieUrl} target="_BLANK" rel="noreferrer">
@@ -28,7 +32,10 @@ export default function Prototypes() {
 
               <div className="prototype__body">
                 <div className="prototype__title">
-                  <div className="btn btn--primary float--right">
+                  <div
+                    className="btn btn--primary float--right"
+                    onClick={click}
+                  >
                     <i className="icon icon--plus"></i>
                   </div>
                   {title}
